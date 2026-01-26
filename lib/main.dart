@@ -10,6 +10,9 @@ class Evently extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp.router(routerConfig: AppRoutes.router);
+    return MaterialApp.router(
+      debugShowCheckedModeBanner: false,
+      routerConfig: AppRoutes.router,
+    );
   }
 }

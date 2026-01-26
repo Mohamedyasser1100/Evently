@@ -1,4 +1,5 @@
 import 'package:evently/core/routes/app_routes.dart';
+import 'package:evently/features/auth/forgot_password_screen.dart';
 import 'package:evently/features/auth/login_screen.dart';
 import 'package:evently/features/auth/signup_screen.dart';
 import 'package:go_router/go_router.dart';
@@ -11,6 +12,10 @@ abstract class AppRoutes {
       GoRoute(
         path: AppRoute.signupScreen,
         builder: (context, state) => const SignupScreen(),
+      ),
+      GoRoute(
+        path: AppRoute.forgotPassword,
+        builder: (context, state) => const ForgotPasswordScreen(),
       ),
     ],
   );
