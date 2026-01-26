@@ -7,35 +7,29 @@ import 'package:evently/core/widgets/custome_textfield.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
-class LoginScreen extends StatefulWidget {
-  const LoginScreen({super.key});
+class SignupScreen extends StatefulWidget {
+  const SignupScreen({super.key});
 
   @override
-  State<LoginScreen> createState() => _LoginScreenState();
+  State<SignupScreen> createState() => _SignupScreenState();
 }
 
-class _LoginScreenState extends State<LoginScreen> {
-  final TextEditingController loginController = TextEditingController();
+class _SignupScreenState extends State<SignupScreen> {
+  final TextEditingController nameController = TextEditingController();
+  final TextEditingController emailController = TextEditingController();
   final TextEditingController passwordController = TextEditingController();
+  final TextEditingController conirmPassController = TextEditingController();
 
-  String? _validateLogin(String? value) {
+  String? _validateName(String? value) {
     if (value == null || value.isEmpty) {
-      return 'Please enter your login';
-    }
-    return null;
-  }
-
-  String? _validatePassword(String? value) {
-    if (value == null || value.isEmpty) {
-      return 'Please enter your password';
+      return 'Please enter your name';
     }
     return null;
   }
 
   @override
   void dispose() {
-    loginController.dispose();
-    passwordController.dispose();
+    nameController.dispose();
     super.dispose();
   }
 
@@ -54,45 +48,51 @@ class _LoginScreenState extends State<LoginScreen> {
                 Center(child: Image.asset('assets/images/app_logo.png')),
                 SizedBox(height: 48),
                 Text(
-                  'Login to your account',
+                  'Create your account',
                   style: AppTextStyles.blue24SemiBold,
                 ),
                 SizedBox(height: 24),
                 CustomeTextField(
-                  _validateLogin,
-                  text: 'Enter your email',
+                  prefixIcon: Icon(Icons.person_2_outlined),
+                  _validateName,
+                  text: 'Enter your name',
                   isPassword: false,
-                  controller: loginController,
-                  prefixIcon: Icon(Icons.email_outlined),
+                  controller: nameController,
                 ),
                 SizedBox(height: 16),
                 CustomeTextField(
-                  _validatePassword,
+                  prefixIcon: Icon(Icons.email_outlined),
+                  _validateName,
+                  text: 'Enter your email',
+                  isPassword: false,
+                  controller: emailController,
+                ),
+                SizedBox(height: 16),
+
+                CustomeTextField(
+                  prefixIcon: Icon(Icons.password_outlined),
+                  _validateName,
                   text: 'Enter your password',
                   isPassword: true,
                   controller: passwordController,
-                  prefixIcon: Icon(Icons.lock_outline),
                 ),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.end,
-                  children: [
-                    TextButton(
-                      onPressed: () {},
-                      child: Text(
-                        'Forgot password?',
-                        style: AppTextStyles.blue14SemiBold,
-                      ),
-                    ),
-                  ],
+                SizedBox(height: 16),
+
+                CustomeTextField(
+                  prefixIcon: Icon(Icons.password_outlined),
+                  _validateName,
+                  text: 'Confirm your password',
+                  isPassword: true,
+                  controller: conirmPassController,
                 ),
-                SizedBox(height: 47),
+                SizedBox(height: 52),
                 CustomeButton(
-                  title: 'Login',
+                  title: 'Sign Up',
                   backgroundColor: AppColors.blue,
                   ontap: () {},
                   textColor: AppColors.white,
                 ),
-                SizedBox(height: 48),
+                SizedBox(height: 24),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
@@ -105,7 +105,7 @@ class _LoginScreenState extends State<LoginScreen> {
 
                     GestureDetector(
                       onTap: () {
-                        GoRouter.of(context).push(AppRoute.signupScreen);
+                        GoRouter.of(context).push(AppRoute.loginScreen);
                       },
                       child: Text(
                         'Signup',
@@ -116,8 +116,7 @@ class _LoginScreenState extends State<LoginScreen> {
                     ),
                   ],
                 ),
-                SizedBox(height: 48),
-
+                SizedBox(height: 72),
                 ButtonWithGoogle(onTap: () {}),
               ],
             ),

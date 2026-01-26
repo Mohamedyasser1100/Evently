@@ -1,4 +1,4 @@
-import 'package:evently/features/auth/login_screen.dart';
+import 'package:evently/core/routes/go_route.dart';
 import 'package:flutter/material.dart';
 
 void main() {
@@ -10,6 +10,6 @@ class Evently extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const MaterialApp(home: Scaffold(body: LoginScreen()));
+    return MaterialApp.router(routerConfig: AppRoutes.router);
   }
 }
