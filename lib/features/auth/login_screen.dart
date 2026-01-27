@@ -4,6 +4,7 @@ import 'package:evently/core/routes/app_routes.dart';
 import 'package:evently/core/widgets/button_with_google.dart';
 import 'package:evently/core/widgets/custome_button.dart';
 import 'package:evently/core/widgets/custome_textfield.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
@@ -15,8 +16,37 @@ class LoginScreen extends StatefulWidget {
 }
 
 class _LoginScreenState extends State<LoginScreen> {
+  final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   final TextEditingController loginController = TextEditingController();
   final TextEditingController passwordController = TextEditingController();
+  Future<void> _login() async {
+    if (_formKey.currentState!.validate()) {
+      try {
+        final credential = await FirebaseAuth.instance
+            .signInWithEmailAndPassword(
+              email: loginController.text.trim(),
+              password: passwordController.text.trim(),
+            );
+
+        print("✅ Welcome Back: ${credential.user?.email}");
+
+        GoRouter.of(context).go(AppRoute.homeScreen);
+      } on FirebaseAuthException catch (e) {
+        String message = "An error occurred";
+        if (e.code == 'user-not-found') {
+          message = 'No user found for that email.';
+        } else if (e.code == 'wrong-password') {
+          message = 'Wrong password provided.';
+        } else if (e.code == 'invalid-credential') {
+          message = 'Invalid email or password.';
+        }
+
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text(message), backgroundColor: Colors.red),
+        );
+      }
+    }
+  }
 
   String? _validateLogin(String? value) {
     if (value == null || value.isEmpty) {
@@ -46,82 +76,85 @@ class _LoginScreenState extends State<LoginScreen> {
         backgroundColor: AppColors.offWhite,
         body: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 17),
-          child: SingleChildScrollView(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                SizedBox(height: 16),
-                Center(child: Image.asset('assets/images/app_logo.png')),
-                SizedBox(height: 48),
-                Text(
-                  'Login to your account',
-                  style: AppTextStyles.blue24SemiBold,
-                ),
-                SizedBox(height: 24),
-                CustomeTextField(
-                  _validateLogin,
-                  text: 'Enter your email',
-                  isPassword: false,
-                  controller: loginController,
-                  prefixIcon: Icon(Icons.email_outlined),
-                ),
-                SizedBox(height: 16),
-                CustomeTextField(
-                  _validatePassword,
-                  text: 'Enter your password',
-                  isPassword: true,
-                  controller: passwordController,
-                  prefixIcon: Icon(Icons.lock_outline),
-                ),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.end,
-                  children: [
-                    TextButton(
-                      onPressed: () {
-                        GoRouter.of(context).push(AppRoute.forgotPassword);
-                      },
-                      child: Text(
-                        'Forgot password?',
-                        style: AppTextStyles.blue14SemiBold,
-                      ),
-                    ),
-                  ],
-                ),
-                SizedBox(height: 47),
-                CustomeButton(
-                  title: 'Login',
-                  backgroundColor: AppColors.blue,
-                  ontap: () {},
-                  textColor: AppColors.white,
-                ),
-                SizedBox(height: 48),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Text(
-                      'Don’t have an account ?',
-                      style: AppTextStyles.blue14Regular.copyWith(
-                        color: AppColors.grey,
-                      ),
-                    ),
-
-                    GestureDetector(
-                      onTap: () {
-                        GoRouter.of(context).push(AppRoute.signupScreen);
-                      },
-                      child: Text(
-                        'Signup',
-                        style: AppTextStyles.blue14Regular.copyWith(
-                          color: AppColors.blue,
+          child: Form(
+            key: _formKey,
+            child: SingleChildScrollView(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  SizedBox(height: 16),
+                  Center(child: Image.asset('assets/images/app_logo.png')),
+                  SizedBox(height: 48),
+                  Text(
+                    'Login to your account',
+                    style: AppTextStyles.blue24SemiBold,
+                  ),
+                  SizedBox(height: 24),
+                  CustomeTextField(
+                    _validateLogin,
+                    text: 'Enter your email',
+                    isPassword: false,
+                    controller: loginController,
+                    prefixIcon: Icon(Icons.email_outlined),
+                  ),
+                  SizedBox(height: 16),
+                  CustomeTextField(
+                    _validatePassword,
+                    text: 'Enter your password',
+                    isPassword: true,
+                    controller: passwordController,
+                    prefixIcon: Icon(Icons.lock_outline),
+                  ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.end,
+                    children: [
+                      TextButton(
+                        onPressed: () {
+                          GoRouter.of(context).push(AppRoute.forgotPassword);
+                        },
+                        child: Text(
+                          'Forgot password?',
+                          style: AppTextStyles.blue14SemiBold,
                         ),
                       ),
-                    ),
-                  ],
-                ),
-                SizedBox(height: 48),
+                    ],
+                  ),
+                  SizedBox(height: 47),
+                  CustomeButton(
+                    title: 'Login',
+                    backgroundColor: AppColors.blue,
+                    ontap: _login,
+                    textColor: AppColors.white,
+                  ),
+                  SizedBox(height: 48),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Text(
+                        'Don’t have an account ?',
+                        style: AppTextStyles.blue14Regular.copyWith(
+                          color: AppColors.grey,
+                        ),
+                      ),
 
-                ButtonWithGoogle(onTap: () {}),
-              ],
+                      GestureDetector(
+                        onTap: () {
+                          GoRouter.of(context).push(AppRoute.signupScreen);
+                        },
+                        child: Text(
+                          'Signup',
+                          style: AppTextStyles.blue14Regular.copyWith(
+                            color: AppColors.blue,
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                  SizedBox(height: 48),
+
+                  ButtonWithGoogle(onTap: () {}),
+                ],
+              ),
             ),
           ),
         ),
