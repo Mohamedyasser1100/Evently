@@ -1,7 +1,7 @@
 import 'package:evently/core/routes/app_routes.dart';
-import 'package:evently/features/auth/forgot_password_screen.dart';
-import 'package:evently/features/auth/login_screen.dart';
-import 'package:evently/features/auth/signup_screen.dart';
+import 'package:evently/features/auth/presentation/views/forgot_password_screen.dart';
+import 'package:evently/features/auth/presentation/views/login_screen.dart';
+import 'package:evently/features/auth/presentation/views/signup_screen.dart';
 import 'package:evently/features/home/home_screen.dart';
 import 'package:go_router/go_router.dart';
 
