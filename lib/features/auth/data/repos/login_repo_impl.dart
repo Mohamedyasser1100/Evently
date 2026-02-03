@@ -1,4 +1,6 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:dartz/dartz.dart';
+import 'package:evently/features/auth/data/model/user_model.dart';
 import 'package:evently/features/auth/data/repos/login_repo.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/foundation.dart';
@@ -19,14 +21,18 @@ class LoginRepoImpl extends LoginRepo {
         email: email,
         password: password,
       );
-      if (auth.currentUser!.emailVerified) {
-        return Right(credential);
-      } else {
-        auth.currentUser?.sendEmailVerification();
-        return const Left(
-          'This email are not verified ,Check your \n Email and try again',
-        );
-      }
+      // Email verification check - uncomment in production
+      // if (auth.currentUser!.emailVerified) {
+      //   return Right(credential);
+      // } else {
+      //   auth.currentUser?.sendEmailVerification();
+      //   return const Left(
+      //     'This email is not verified. Check your email and try again',
+      //   );
+      // }
+      await _saveUserToFirestore(credential.user!);
+
+      return Right(credential);
     } on FirebaseAuthException catch (e) {
       if (e.code == e.code) {
         if (kDebugMode) {
@@ -49,7 +55,7 @@ class LoginRepoImpl extends LoginRepo {
         return const Left('No Email Selected');
       }
       final GoogleSignInAuthentication? googleAuth =
-          await googleUser?.authentication;
+          await googleUser.authentication;
 
       final credential = GoogleAuthProvider.credential(
         accessToken: googleAuth?.accessToken,
@@ -57,6 +63,12 @@ class LoginRepoImpl extends LoginRepo {
       );
       await FirebaseAuth.instance.signInWithCredential(credential);
       User? user = FirebaseAuth.instance.currentUser;
+
+      // Save user data to Firestore after successful Google sign-in
+      if (user != null) {
+        await _saveUserToFirestore(user);
+      }
+
       return Right(user!);
     } on FirebaseAuthException catch (e) {
       return Left(e.message.toString());
@@ -81,6 +93,41 @@ class LoginRepoImpl extends LoginRepo {
       }
     } catch (err) {
       return Left(err.toString());
+    }
+  }
+
+  /// Save or update user data in Firestore
+  Future<void> _saveUserToFirestore(User user) async {
+    try {
+      final token = await user.getIdToken();
+
+      final userDoc = FirebaseFirestore.instance
+          .collection('users')
+          .doc(user.uid);
+
+      final docSnapshot = await userDoc.get();
+
+      if (docSnapshot.exists) {
+        // User eists - update token and last login time
+        await userDoc.update({
+          'token': token,
+          'lastLoginAt': DateTime.now().toIso8601String(),
+        });
+      } else {
+        final userModel = UserModel(
+          name: user.displayName ?? 'User',
+          email: user.email ?? '',
+          userId: user.uid,
+          password: '',
+          confirmPass: '',
+          token: token,
+          lastLoginAt: DateTime.now(),
+        );
+
+        await userDoc.set(userModel.toJson());
+      }
+    } catch (e) {
+      print('Error saving user to Firestore: $e');
     }
   }
 }

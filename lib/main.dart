@@ -7,7 +7,6 @@ void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await CacheHelper.init();
   await Firebase.initializeApp();
-  print("Firebase Initialized Successfully!");
   runApp(Evently());
 }
 

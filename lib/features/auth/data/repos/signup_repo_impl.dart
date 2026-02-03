@@ -24,6 +24,7 @@ class SignupRepoImpl extends SignupRepo {
         password: password,
       );
       await userCredential.user?.updateDisplayName(name);
+
       await uploadUserData(
         userModel: UserModel(
           password: password,
@@ -61,7 +62,7 @@ class SignupRepoImpl extends SignupRepo {
         return const Left('No Email Selected');
       }
       final GoogleSignInAuthentication? googleAuth =
-          await googleUser?.authentication;
+          await googleUser.authentication;
       final credential = GoogleAuthProvider.credential(
         accessToken: googleAuth?.accessToken,
         idToken: googleAuth?.idToken,
