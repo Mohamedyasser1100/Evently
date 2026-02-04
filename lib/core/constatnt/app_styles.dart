@@ -58,4 +58,9 @@ abstract final class AppTextStyles {
     fontWeight: FontWeight.w400,
     fontSize: 12,
   );
+  static const TextStyle blue16Medium = TextStyle(
+    color: AppColors.blue,
+    fontWeight: FontWeight.w500,
+    fontSize: 16,
+  );
 }

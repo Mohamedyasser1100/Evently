@@ -40,12 +40,6 @@ Stream<List<EventDM>> getEventsFromFirestore() {
   CollectionReference collection = FirebaseFirestore.instance.collection(
     "events",
   );
-  // QuerySnapshot querySnapshot =  collection.get(); ///Get all events from collection
-  // ///
-  // return querySnapshot.docs.map((doc){
-  //   var json = doc.data() as Map<String, dynamic>;
-  //   return EventDM.fromJson(json);
-  // }).toList();
   Stream<QuerySnapshot> stream = collection.snapshots();
 
   ///Get all events from collection
@@ -55,4 +49,18 @@ Stream<List<EventDM>> getEventsFromFirestore() {
       return EventDM.fromJson(json);
     }).toList();
   });
+}
+
+Future<void> deleteEventFromFirestore(EventDM event) async {
+  CollectionReference collection = FirebaseFirestore.instance.collection(
+    "events",
+  );
+  await collection.doc(event.id).delete();
+}
+
+Future<void> updateEventInFirestore(EventDM event) async {
+  CollectionReference collection = FirebaseFirestore.instance.collection(
+    "events",
+  );
+  await collection.doc(event.id).update(event.toJson());
 }

@@ -7,18 +7,18 @@ import 'package:evently/core/model/event_dm.dart';
 import 'package:evently/core/widgets/categories_tab_bar.dart';
 import 'package:evently/core/widgets/custome_textfield.dart';
 import 'package:evently/core/widgets/evently_button.dart';
-import 'package:evently/features/auth/data/model/user_model.dart';
 
 import 'package:flutter/material.dart';
 
-class AddEventScreen extends StatefulWidget {
-  const AddEventScreen({super.key});
+class EditEventScreen extends StatefulWidget {
+  final EventDM event;
+  const EditEventScreen({super.key, required this.event});
 
   @override
-  State<AddEventScreen> createState() => _AddEventScreenState();
+  State<EditEventScreen> createState() => _EditEventScreenState();
 }
 
-class _AddEventScreenState extends State<AddEventScreen> {
+class _EditEventScreenState extends State<EditEventScreen> {
   CategoryDM selectedCategory = AppConstants.customCategories[0];
   DateTime selectedDate = DateTime.now();
   TimeOfDay selectedTime = TimeOfDay.now();
@@ -26,14 +26,34 @@ class _AddEventScreenState extends State<AddEventScreen> {
   TextEditingController descriptionController = TextEditingController();
 
   @override
+  void initState() {
+    super.initState();
+    titleController.text = widget.event.title;
+    descriptionController.text = widget.event.description;
+    selectedDate = widget.event.dateTime;
+    selectedTime = TimeOfDay.fromDateTime(widget.event.dateTime);
+    selectedCategory = widget.event.categoryDM;
+  }
+
+  @override
   Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(
         backgroundColor: AppColors.offWhite,
         appBar: AppBar(
-          title: Text("Add Event", style: AppTextStyles.black16Medium),
+          title: Text("Edit Event", style: AppTextStyles.black16Medium),
           centerTitle: true,
           backgroundColor: Colors.transparent,
+          actions: [
+            IconButton(onPressed: () {}, icon: Icon(Icons.edit)),
+            IconButton(
+              onPressed: () async {
+                await deleteEventFromFirestore(widget.event);
+                Navigator.pop(context);
+              },
+              icon: Icon(Icons.delete, color: Colors.red),
+            ),
+          ],
         ),
         body: Padding(
           padding: const EdgeInsets.all(16.0),
@@ -156,7 +176,7 @@ class _AddEventScreenState extends State<AddEventScreen> {
   );
 
   buildAddEventButton() => EventlyButton(
-    text: "Add Event",
+    text: "Update Event",
     onPress: () async {
       showLoading(context);
 
@@ -168,14 +188,14 @@ class _AddEventScreenState extends State<AddEventScreen> {
         selectedTime.minute,
       );
       EventDM eventDM = EventDM(
-        id: "",
-        ownerId: UserModel.currentUser!.id,
+        id: widget.event.id,
+        ownerId: widget.event.ownerId,
         categoryDM: selectedCategory,
         dateTime: selectedDate,
         title: titleController.text,
         description: descriptionController.text,
       );
-      await createEventInFirestore(eventDM);
+      await updateEventInFirestore(eventDM);
       Navigator.pop(context); //hide loading
       Navigator.pop(context); //go back to navigation screen
     },

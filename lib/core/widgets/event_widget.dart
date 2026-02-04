@@ -1,7 +1,9 @@
 import 'package:evently/core/constatnt/app_colors.dart';
 import 'package:evently/core/constatnt/app_styles.dart';
 import 'package:evently/core/model/event_dm.dart';
+import 'package:evently/core/routes/app_routes.dart';
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 
 class EventWidget extends StatelessWidget {
   final EventDM eventDM;
@@ -10,27 +12,32 @@ class EventWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      height: MediaQuery.of(context).size.height * .28,
-      margin: EdgeInsets.symmetric(vertical: 8),
-      padding: EdgeInsets.symmetric(vertical: 8),
-      decoration: BoxDecoration(borderRadius: BorderRadius.circular(14)),
-      child: Stack(
-        children: [
-          ClipRRect(
-            borderRadius: BorderRadius.circular(8),
-            child: Image.asset(
-              eventDM.categoryDM.imagePath,
-              fit: BoxFit.fill,
-              height: double.infinity,
-              width: double.infinity,
+    return GestureDetector(
+      onTap: () {
+        GoRouter.of(context).push(AppRoute.eventDetails, extra: eventDM);
+      },
+      child: Container(
+        height: MediaQuery.of(context).size.height * .28,
+        margin: EdgeInsets.symmetric(vertical: 8),
+        padding: EdgeInsets.symmetric(vertical: 8),
+        decoration: BoxDecoration(borderRadius: BorderRadius.circular(14)),
+        child: Stack(
+          children: [
+            ClipRRect(
+              borderRadius: BorderRadius.circular(8),
+              child: Image.asset(
+                eventDM.categoryDM.imagePath,
+                fit: BoxFit.fill,
+                height: double.infinity,
+                width: double.infinity,
+              ),
             ),
-          ),
-          Column(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [buildDateContainer(), buildTitleContainer()],
-          ),
-        ],
+            Column(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [buildDateContainer(), buildTitleContainer()],
+            ),
+          ],
+        ),
       ),
     );
   }

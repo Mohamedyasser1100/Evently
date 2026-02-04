@@ -1,9 +1,12 @@
+import 'package:evently/core/model/event_dm.dart';
 import 'package:evently/core/routes/app_routes.dart';
 import 'package:evently/features/auth/presentation/views/forgot_password_screen.dart';
 import 'package:evently/features/auth/presentation/views/login_screen.dart';
 import 'package:evently/features/auth/presentation/views/signup_screen.dart';
 import 'package:evently/features/home/presentation/views/add_event_screen.dart';
+import 'package:evently/features/home/presentation/views/edit_event.dart';
 import 'package:evently/features/home/presentation/views/home_screen.dart';
+import 'package:evently/features/home/presentation/views/widgets/event_details.dart';
 import 'package:evently/features/navigation_bar/navigation_screen.dart';
 import 'package:go_router/go_router.dart';
 
@@ -31,6 +34,20 @@ abstract class AppRoutes {
       GoRoute(
         path: AppRoute.addEventScreen,
         builder: (context, state) => const AddEventScreen(),
+      ),
+      GoRoute(
+        path: AppRoute.editEventScreen,
+        builder: (context, state) {
+          EventDM event = state.extra as EventDM;
+          return EditEventScreen(event: event);
+        },
+      ),
+      GoRoute(
+        path: AppRoute.eventDetails,
+        builder: (context, state) {
+          EventDM event = state.extra as EventDM;
+          return EventDetails(event: event);
+        },
       ),
     ],
   );
