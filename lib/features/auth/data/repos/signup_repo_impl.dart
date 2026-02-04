@@ -27,6 +27,7 @@ class SignupRepoImpl extends SignupRepo {
 
       await uploadUserData(
         userModel: UserModel(
+          id: userCredential.user!.uid,
           password: password,
           name: name,
           email: email,
@@ -81,5 +82,6 @@ class SignupRepoImpl extends SignupRepo {
         .collection("users")
         .doc(userModel.userId)
         .set(userModel.toJson());
+    UserModel.currentUser = userModel;
   }
 }

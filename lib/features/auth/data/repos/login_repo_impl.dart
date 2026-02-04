@@ -113,8 +113,16 @@ class LoginRepoImpl extends LoginRepo {
           'token': token,
           'lastLoginAt': DateTime.now().toIso8601String(),
         });
+
+        var data = docSnapshot.data();
+        if (data != null) {
+          data['token'] = token;
+          data['lastLoginAt'] = DateTime.now().toIso8601String();
+          UserModel.currentUser = UserModel.fromJson(data);
+        }
       } else {
         final userModel = UserModel(
+          id: user.uid,
           name: user.displayName ?? 'User',
           email: user.email ?? '',
           userId: user.uid,
@@ -125,6 +133,7 @@ class LoginRepoImpl extends LoginRepo {
         );
 
         await userDoc.set(userModel.toJson());
+        UserModel.currentUser = userModel;
       }
     } catch (e) {
       print('Error saving user to Firestore: $e');

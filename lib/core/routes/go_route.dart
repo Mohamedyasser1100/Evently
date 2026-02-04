@@ -2,7 +2,9 @@ import 'package:evently/core/routes/app_routes.dart';
 import 'package:evently/features/auth/presentation/views/forgot_password_screen.dart';
 import 'package:evently/features/auth/presentation/views/login_screen.dart';
 import 'package:evently/features/auth/presentation/views/signup_screen.dart';
-import 'package:evently/features/home/home_screen.dart';
+import 'package:evently/features/home/presentation/views/add_event_screen.dart';
+import 'package:evently/features/home/presentation/views/home_screen.dart';
+import 'package:evently/features/navigation_bar/navigation_screen.dart';
 import 'package:go_router/go_router.dart';
 
 abstract class AppRoutes {
@@ -21,6 +23,14 @@ abstract class AppRoutes {
       GoRoute(
         path: AppRoute.homeScreen,
         builder: (context, state) => const HomeScreen(),
+      ),
+      GoRoute(
+        path: AppRoute.navigationScreen,
+        builder: (context, state) => const NavigationScreen(),
+      ),
+      GoRoute(
+        path: AppRoute.addEventScreen,
+        builder: (context, state) => const AddEventScreen(),
       ),
     ],
   );

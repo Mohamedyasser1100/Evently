@@ -35,7 +35,7 @@ class LoginScreen extends StatelessWidget {
       child: BlocConsumer<LoginCubit, LoginState>(
         listener: (context, state) {
           if (state is LoginSuccess) {
-            GoRouter.of(context).go(AppRoute.homeScreen);
+            GoRouter.of(context).go(AppRoute.navigationScreen);
           } else if (state is LoginFailure) {
             ScaffoldMessenger.of(context).showSnackBar(
               SnackBar(content: Text(state.error), backgroundColor: Colors.red),

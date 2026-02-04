@@ -3,4 +3,6 @@ class AppRoute {
   static const String signupScreen = '/signupScreen';
   static const String forgotPassword = '/forgotPassword';
   static const String homeScreen = '/homeScreen';
+  static const String navigationScreen = '/navigationScreen';
+  static const String addEventScreen = '/addEventScreen';
 }

@@ -1,4 +1,6 @@
 class UserModel {
+  static UserModel? currentUser;
+  final String id;
   final String name;
   final String email;
   final String userId;
@@ -8,6 +10,7 @@ class UserModel {
   final DateTime? lastLoginAt;
 
   UserModel({
+    required this.id,
     required this.name,
     required this.email,
     required this.userId,
@@ -19,6 +22,7 @@ class UserModel {
 
   factory UserModel.fromJson(Map<String, dynamic> json) {
     return UserModel(
+      id: json['id'],
       name: json['name'],
       email: json['email'],
       userId: json['userId'],
@@ -33,6 +37,7 @@ class UserModel {
 
   toJson() {
     return {
+      'id': id,
       'email': email,
       'name': name,
       'userId': userId,
