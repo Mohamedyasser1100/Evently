@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:evently/core/constatnt/app_colors.dart';
 import 'package:evently/core/constatnt/app_styles.dart';
 import 'package:evently/core/model/event_dm.dart';
@@ -18,7 +19,7 @@ class EventWidget extends StatelessWidget {
       },
       child: Container(
         height: MediaQuery.of(context).size.height * .28,
-        margin: EdgeInsets.symmetric(vertical: 8),
+        // margin: EdgeInsets.symmetric(vertical: 8),
         padding: EdgeInsets.symmetric(vertical: 8),
         decoration: BoxDecoration(borderRadius: BorderRadius.circular(14)),
         child: Stack(
@@ -79,9 +80,18 @@ class EventWidget extends StatelessWidget {
             overflow: TextOverflow.ellipsis,
           ),
         ),
-        Icon(
-          false ? Icons.favorite : Icons.favorite_border,
-          color: AppColors.blue,
+        IconButton(
+          icon: Icon(
+            eventDM.isFavorite ? Icons.favorite : Icons.favorite_border,
+            color: eventDM.isFavorite ? AppColors.blue : Colors.grey,
+          ),
+          onPressed: () async {
+            // قلب الحالة
+            await FirebaseFirestore.instance
+                .collection('events')
+                .doc(eventDM.id)
+                .update({'isFavorite': !eventDM.isFavorite});
+          },
         ),
       ],
     ),

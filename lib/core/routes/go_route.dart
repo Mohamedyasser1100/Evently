@@ -8,13 +8,19 @@ import 'package:evently/features/home/presentation/views/edit_event.dart';
 import 'package:evently/features/home/presentation/views/home_screen.dart';
 import 'package:evently/features/home/presentation/views/widgets/event_details.dart';
 import 'package:evently/features/navigation_bar/navigation_screen.dart';
+import 'package:evently/features/onboarding/presentation/views/on_boarding_screen.dart';
+import 'package:evently/features/splash/splash_screen.dart';
 import 'package:go_router/go_router.dart';
 
 abstract class AppRoutes {
   static GoRouter router = GoRouter(
     initialLocation: '/',
     routes: [
-      GoRoute(path: '/', builder: (context, state) => const LoginScreen()),
+      GoRoute(path: '/', builder: (context, state) => const SplashScreen()),
+      GoRoute(
+        path: AppRoute.loginScreen,
+        builder: (context, state) => const LoginScreen(),
+      ),
       GoRoute(
         path: AppRoute.signupScreen,
         builder: (context, state) => const SignupScreen(),
@@ -48,6 +54,10 @@ abstract class AppRoutes {
           EventDM event = state.extra as EventDM;
           return EventDetails(event: event);
         },
+      ),
+      GoRoute(
+        path: AppRoute.onBoardingScreen,
+        builder: (context, state) => const OnBoardingScreen(),
       ),
     ],
   );

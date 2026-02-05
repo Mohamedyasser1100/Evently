@@ -8,6 +8,7 @@ class EventDM {
   String title;
   String description;
   DateTime dateTime;
+  bool isFavorite;
 
   EventDM({
     required this.id,
@@ -16,6 +17,7 @@ class EventDM {
     required this.dateTime,
     required this.title,
     required this.description,
+    this.isFavorite = false,
   });
 
   static EventDM fromJson(Map<String, dynamic> json) {
@@ -27,6 +29,7 @@ class EventDM {
       dateTime: timeStamp.toDate(),
       title: json["title"],
       description: json["description"],
+      isFavorite: json['isFavorite'] ?? false,
     );
   }
 
@@ -38,6 +41,7 @@ class EventDM {
       "title": title,
       "description": description,
       "dateTime": dateTime,
+      'isFavorite': isFavorite,
     };
   }
 }
