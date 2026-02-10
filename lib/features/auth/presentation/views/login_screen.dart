@@ -1,5 +1,6 @@
 import 'package:evently/core/constatnt/app_colors.dart';
 import 'package:evently/core/constatnt/app_styles.dart';
+import 'package:evently/core/l10n/app_localizations.dart';
 import 'package:evently/core/routes/app_routes.dart';
 import 'package:evently/core/widgets/button_with_google.dart';
 import 'package:evently/core/widgets/custome_button.dart';
@@ -30,6 +31,8 @@ class LoginScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final localizations = AppLocalizations.of(context)!;
+
     return BlocProvider(
       create: (_) => LoginCubit(LoginRepoImpl(FirebaseAuth.instance)),
       child: BlocConsumer<LoginCubit, LoginState>(
@@ -75,24 +78,24 @@ class LoginScreen extends StatelessWidget {
                         ),
                         const SizedBox(height: 48),
                         Text(
-                          'Login to your account',
+                          localizations.loginHeaderMessage,
                           style: AppTextStyles.blue24SemiBold,
                         ),
                         const SizedBox(height: 24),
                         CustomeTextField(
                           _validateLogin,
-                          text: 'Enter your email',
+                          text: localizations.emailHint,
                           isPassword: false,
                           controller: cubit.email,
-                          prefixIcon: const Icon(Icons.email_outlined),
+                          prefixIcon: Image.asset('assets/images/sms.png'),
                         ),
                         const SizedBox(height: 16),
                         CustomeTextField(
                           _validatePassword,
-                          text: 'Enter your password',
+                          text: localizations.passwordHint,
                           isPassword: cubit.isPassword,
                           controller: cubit.password,
-                          prefixIcon: const Icon(Icons.lock_outline),
+                          prefixIcon: Image.asset('assets/images/lock.png'),
                           suffixIcon: IconButton(
                             icon: Icon(cubit.suffix),
                             onPressed: cubit.changePasswordVisibility,
@@ -106,7 +109,7 @@ class LoginScreen extends StatelessWidget {
                                 cubit.resetPassword();
                               },
                               child: Text(
-                                'Forgot password?',
+                                localizations.forgetPassword,
                                 style: AppTextStyles.blue14SemiBold,
                               ),
                             ),
@@ -116,7 +119,7 @@ class LoginScreen extends StatelessWidget {
                         isLoading
                             ? const Center(child: CircularProgressIndicator())
                             : CustomeButton(
-                                title: 'Login',
+                                title: localizations.login,
                                 backgroundColor: AppColors.blue,
                                 ontap: () {
                                   if (cubit.formKey.currentState!.validate()) {
@@ -130,7 +133,7 @@ class LoginScreen extends StatelessWidget {
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
                             Text(
-                              'Don’t have an account ?',
+                              localizations.dontHaveAccount,
                               style: AppTextStyles.blue14Regular.copyWith(
                                 color: AppColors.grey,
                               ),
@@ -142,7 +145,7 @@ class LoginScreen extends StatelessWidget {
                                 ).push(AppRoute.signupScreen);
                               },
                               child: Text(
-                                'Signup',
+                                localizations.signUp,
                                 style: AppTextStyles.blue14Regular.copyWith(
                                   color: AppColors.blue,
                                 ),

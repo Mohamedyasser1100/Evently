@@ -9,4 +9,5 @@ class AppRoute {
   static const String editEventScreen = '/editEventScreen';
   static const String eventDetails = '/eventDetails';
   static const String onBoardingScreen = '/onBoardingScreen';
+  static const String onboardingDetails = '/onboardingDetails';
 }

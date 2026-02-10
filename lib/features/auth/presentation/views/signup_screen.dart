@@ -66,7 +66,7 @@ class SignupScreen extends StatelessWidget {
                             }
                             return null;
                           },
-                          prefixIcon: const Icon(Icons.person_2_outlined),
+                          prefixIcon: Image.asset('assets/images/user.png'),
                           text: 'Enter your name',
                           isPassword: false,
                           controller: cubit.nameController,
@@ -84,7 +84,7 @@ class SignupScreen extends StatelessWidget {
                             }
                             return null;
                           },
-                          prefixIcon: const Icon(Icons.email_outlined),
+                          prefixIcon: Image.asset('assets/images/sms.png'),
                           text: 'Enter your email',
                           isPassword: false,
                           controller: cubit.emailController,
@@ -100,7 +100,7 @@ class SignupScreen extends StatelessWidget {
                             }
                             return null;
                           },
-                          prefixIcon: const Icon(Icons.password_outlined),
+                          prefixIcon: Image.asset('assets/images/lock.png'),
                           suffixIcon: IconButton(
                             icon: Icon(cubit.suffix),
                             onPressed: cubit.changePasswordVisibility,
@@ -120,7 +120,7 @@ class SignupScreen extends StatelessWidget {
                             }
                             return null;
                           },
-                          prefixIcon: const Icon(Icons.password_outlined),
+                          prefixIcon: Image.asset('assets/images/lock.png'),
                           text: 'Confirm your password',
                           isPassword: cubit.isPassword,
                           controller: cubit.confirmPassController,

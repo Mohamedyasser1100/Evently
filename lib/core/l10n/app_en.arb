@@ -8,5 +8,9 @@
   "signUp": "Sign up",
   "or": "or",
   "googleLogin": "Login with Google",
-  "register": "Register"
+  "register": "Register",
+  "language": "Language",
+  "personalizeExperience": "Personalize Your Experience",
+  "personalizeDescription": "Choose your preferred theme and language to get started with a comfortable, tailored experience that suits your style.",
+  "letsStart": "Let's Start"
 }

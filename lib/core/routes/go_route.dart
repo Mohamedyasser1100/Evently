@@ -9,6 +9,7 @@ import 'package:evently/features/home/presentation/views/home_screen.dart';
 import 'package:evently/features/home/presentation/views/widgets/event_details.dart';
 import 'package:evently/features/navigation_bar/navigation_screen.dart';
 import 'package:evently/features/onboarding/presentation/views/on_boarding_screen.dart';
+import 'package:evently/features/onboarding/presentation/views/widgets/onboarding_details.dart';
 import 'package:evently/features/splash/splash_screen.dart';
 import 'package:go_router/go_router.dart';
 
@@ -58,6 +59,10 @@ abstract class AppRoutes {
       GoRoute(
         path: AppRoute.onBoardingScreen,
         builder: (context, state) => const OnBoardingScreen(),
+      ),
+      GoRoute(
+        path: AppRoute.onboardingDetails,
+        builder: (context, state) => OnboardingDetails(),
       ),
     ],
   );

@@ -8,5 +8,9 @@
   "signUp": "اشتراك",
   "or": "أو",
   "googleLogin": "تسجيل الدخول باستخدام جوجل",
-  "register": "تسجيل"
+  "register": "تسجيل",
+  "language": "اللغة",
+  "personalizeExperience": "خصص تجربتك",
+  "personalizeDescription": "اختر المظهر واللغة المفضلة لديك للبدء بتجربة مريحة ومخصصة تناسب أسلوبك.",
+  "letsStart": "هيا نبدأ"
 }

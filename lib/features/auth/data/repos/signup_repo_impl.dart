@@ -28,11 +28,11 @@ class SignupRepoImpl extends SignupRepo {
       await uploadUserData(
         userModel: UserModel(
           id: userCredential.user!.uid,
-          password: password,
+          // password: password,
           name: name,
           email: email,
           userId: userCredential.user!.uid,
-          confirmPass: confirmPass,
+          // confirmPass: confirmPass,
         ),
       );
       return right(userCredential);

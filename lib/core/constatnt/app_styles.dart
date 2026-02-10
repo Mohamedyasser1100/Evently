@@ -28,6 +28,11 @@ abstract final class AppTextStyles {
     fontWeight: FontWeight.w400,
     fontSize: 14,
   );
+  static const TextStyle blue16Regulargray = TextStyle(
+    color: AppColors.grey,
+    fontWeight: FontWeight.w400,
+    fontSize: 16,
+  );
   static const TextStyle blue18Medium = TextStyle(
     color: AppColors.blue,
     fontWeight: FontWeight.w500,

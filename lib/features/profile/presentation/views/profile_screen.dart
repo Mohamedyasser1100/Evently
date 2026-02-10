@@ -1,8 +1,11 @@
 import 'package:evently/core/constatnt/app_colors.dart';
 import 'package:evently/core/constatnt/app_styles.dart';
+import 'package:evently/core/routes/app_routes.dart';
 import 'package:evently/features/auth/data/model/user_model.dart';
 import 'package:evently/features/profile/presentation/views/widgets/setting_tile.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 
 class ProfileScreen extends StatelessWidget {
   const ProfileScreen({super.key});
@@ -71,7 +74,10 @@ class ProfileScreen extends StatelessWidget {
             ),
             SizedBox(height: 16),
             SettingTile(
-              onTap: () {},
+              onTap: () async {
+                await FirebaseAuth.instance.signOut();
+                GoRouter.of(context).pushReplacement(AppRoute.loginScreen);
+              },
               title: 'Logout',
               trailing: Icon(Icons.logout, color: Colors.red),
             ),

@@ -1,6 +1,6 @@
 import 'package:evently/core/constatnt/app_styles.dart';
+import 'package:evently/core/l10n/app_localizations.dart';
 import 'package:flutter/material.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 // ignore: must_be_immutable
 class ButtonWithGoogle extends StatelessWidget {
@@ -8,6 +8,8 @@ class ButtonWithGoogle extends StatelessWidget {
   void Function()? onTap;
   @override
   Widget build(BuildContext context) {
+    final localizations = AppLocalizations.of(context)!;
+
     return GestureDetector(
       onTap: onTap,
       child: Container(
@@ -20,9 +22,9 @@ class ButtonWithGoogle extends StatelessWidget {
         child: Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            FaIcon(FontAwesomeIcons.google),
+            Image.asset('assets/images/google (2).png'),
             SizedBox(width: 8),
-            Text('Login with Google', style: AppTextStyles.blue18Medium),
+            Text(localizations.googleLogin, style: AppTextStyles.blue18Medium),
           ],
         ),
       ),

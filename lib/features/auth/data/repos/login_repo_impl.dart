@@ -126,8 +126,8 @@ class LoginRepoImpl extends LoginRepo {
           name: user.displayName ?? 'User',
           email: user.email ?? '',
           userId: user.uid,
-          password: '',
-          confirmPass: '',
+          // password: '',
+          // confirmPass: '',
           token: token,
           lastLoginAt: DateTime.now(),
         );
